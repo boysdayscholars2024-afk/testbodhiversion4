@@ -9864,6 +9864,54 @@
            INCLUDES EXPLANATIONS (FIXED)
            ========================================================================== */
 
+        /* ---- Admin/Dashboard PDF Download (Qs / Qs+Ans / Full) ----
+           Restored after the parser refactor: this file no longer ships the
+           local synchronous parseRawQuestions (that logic now lives in the
+           Cloudflare Worker, see window.parseRawQuestionsRemote). Dashboard
+           tests already carry structured `questions`, so we use those
+           directly (same pattern as handleHistoryPDFLoad) and only fall back
+           to the async remote parser when a test has raw text but no
+           structured questions yet. */
+        window.adminDownloadPDF = async function(code, mode) {
+            const t = window.adminUnifiedTests.find(x => x.code === code);
+            if (!t) return window.showCustomAlert("Error", "Data not found!", "❌");
+
+            let storedQs = (t.questions && Array.isArray(t.questions) && t.questions.length > 0) ?
+                window.sanitizeQuestions(t.questions) : [];
+
+            if (storedQs.length === 0) {
+                let raw = t.rawText || "";
+                if (!raw) return window.showCustomAlert("Empty Test", "No questions to print!", "❌");
+                raw = window.sanitizeMath(raw);
+                window.showLoadingModal("Preparing PDF...<br><i>Please wait...</i>");
+                storedQs = await window.parseRawQuestionsRemote(raw);
+                window.closeModal();
+                if (!storedQs || storedQs.length === 0) return window.showCustomAlert("Parse Error",
+                    "No valid questions.", "❌");
+            }
+
+            const taggedQs = storedQs.map((q, idx) => ({
+                ...q,
+                tag: (q.tag && q.tag.trim() !== "") ? q.tag : (t.tags?.[idx] || "General"),
+                exp: q.exp || ""
+            }));
+
+            window.examData = {
+                exam: t.exam,
+                subject: t.subject || t.sub || "Subject",
+                topic: t.topic,
+                code: t.code,
+                questions: taggedQs,
+                tags: taggedQs.map(q => q.tag || "General"),
+                summary: window.parseHack(t.topic).summary || ""
+            };
+
+            const customName = window.studentInfo?.name || "Sample Student";
+            window.userAnswers = [];
+            taggedQs.forEach((q, i) => { window.userAnswers[i] = window.getCleanAns(q.ans); });
+            window.executePDFPrintWithMathFix(customName, mode);
+        };
+
         /* ---- PDF printer with clean tag display + Explanations (FIXED) ---- */
         window.executePDFPrintWithMathFix = function(studentName, mode) {
             const pA = document.getElementById('print-area');
@@ -13232,10 +13280,42 @@
     <!-- ===== PRINT AREA ===== -->
     <div id="print-area"></div>
 <script>
-    // ============ DEBUG BUILD: anti-devtools blocking DISABLED ============
-    // This copy is for local debugging ONLY — do not deploy this file
-    // permanently, it has the answer-protection DevTools block turned off.
-    console.log("🔧 DEBUG BUILD — DevTools blocking disabled for troubleshooting.");
+    // 1. Right-Click Disable
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    // 2. Keyboard Shortcuts Disable
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'F12' || event.keyCode === 123 || 
+           (event.ctrlKey && event.shiftKey && (event.key === 'I' || event.key === 'i' || event.key === 'J' || event.key === 'j' || event.key === 'C' || event.key === 'c')) ||
+           (event.ctrlKey && (event.key === 'U' || event.key === 'u'))) {
+            event.preventDefault();
+            document.body.innerHTML = "";
+            window.location.replace("about:blank");
+            return false;
+        }
+    });
+
+    // 3. SUPER AGGRESSIVE AUTO-WIPE (Bina popup ke gayab karega)
+    setInterval(function () {
+        // Trick A: Agar DevTools screen ke side ya niche khula (Docked), toh screen size change hoga
+        var widthDiff = window.outerWidth - window.innerWidth;
+        var heightDiff = window.outerHeight - window.innerHeight;
+        
+        // Agar difference 200 pixel se zyada hai, matlab Inspect panel khul gaya hai
+        if (widthDiff > 200 || heightDiff > 200) {
+            document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:20%; font-family:sans-serif;'>⚠️ Security Alert: Cheating Attempt Detected!</h1>";
+            window.location.replace("about:blank");
+        }
+
+        // Trick B: Agar DevTools alag window mein khula (Undocked), toh timing trick pakad legi
+        var start = performance.now();
+        debugger; 
+        var end = performance.now();
+        if (end - start > 50) {
+            document.body.innerHTML = "";
+            window.location.replace("about:blank");
+        }
+    }, 500); // Har aadhe second mein scan karega
 </script>
 </body>
 </html>
