@@ -965,7 +965,7 @@
             background: var(--bg-card);
             color: var(--text-main);
             font-weight: 700;
-            font-size:10px;
+            font-size:9px;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
@@ -973,21 +973,21 @@
             justify-content: center;
             font-family: var(--font-sans);
             position: relative;
-            min-height: 32px;
+            min-height: 24px;
         }
         .sb-palette-btn:hover {
             transform: scale(1.05);
             box-shadow: var(--shadow-sm);
         }
         .sb-palette-btn.status-answered {
-            background: var(--success);
+            background: #6b7280;
             color: #fff;
-            border-color: var(--success);
+            border-color: #6b7280;
         }
         .sb-palette-btn.status-not-answered {
-            background: var(--warning);
-            color: #1a2332;
-            border-color: var(--warning);
+            background: #d1d5db;
+            color: #24262a;
+            border-color: #d1d5db;
         }
         .sb-palette-btn.status-not-visited {
             background: var(--bg-card);
@@ -995,13 +995,13 @@
             border-color: var(--border-color);
         }
         .sb-palette-btn.active-q {
-            border: 3px solid var(--accent);
+            border: 3px solid #374151;
             transform: scale(1.08);
-            box-shadow: 0 0 0 3px rgba(212, 168, 67, 0.20);
+            box-shadow: 0 0 0 3px rgba(55, 65, 81, 0.20);
             z-index: 2;
         }
         .sb-palette-btn.bookmarked {
-            border-color: var(--accent);
+            border-color: #4b5563;
         }
         .sb-palette-btn.bookmarked::after {
             content: '⭐';
@@ -1142,17 +1142,25 @@
             box-shadow: var(--shadow-md);
         }
         .action-btn.btn-prev {
-            background: #6b7280;
+            background: #9ca3af;
         }
         .action-btn.btn-clear {
-            background: var(--warning);
-            color: #1a2332;
+            background: #6b7280;
+            color: #fff;
         }
         .action-btn.btn-next {
-            background: var(--success);
+            background: #4b5563;
         }
         .action-btn.btn-submit {
-            background: var(--danger);
+            background: #374151;
+        }
+
+        /* Guarantee a crisp pure-white question area in light mode
+           (dark mode keeps its own dark background via --bg-container). */
+        body:not(.dark-mode) .exam-wrapper,
+        body:not(.dark-mode) .exam-left,
+        body:not(.dark-mode) #q-scroll-area {
+            background: #ffffff !important;
         }
 
         /* ============================================================
@@ -2557,11 +2565,11 @@
             padding:3px 0;
         }
         .palette-btn {
-            width: 38px;
-            height: 38px;
+            width: 30px;
+            height: 30px;
             border-radius:var(--radius-sm);
             font-weight: 700;
-            font-size:11px;
+            font-size:10px;
             cursor: pointer;
             transition: var(--transition);
             color: var(--text-main);
@@ -2578,17 +2586,17 @@
             border-color: var(--border-color);
         }
         .palette-btn.status-not-answered {
-            background: var(--warning);
-            color: #1a2332;
-            border-color: var(--warning);
+            background: #d1d5db;
+            color: #24262a;
+            border-color: #d1d5db;
         }
         .palette-btn.status-answered {
-            background: var(--success);
+            background: #6b7280;
             color: #fff;
-            border-color: var(--success);
+            border-color: #6b7280;
         }
         .palette-btn.bookmarked {
-            border-color: var(--accent);
+            border-color: #4b5563;
             position: relative;
         }
         .palette-btn.bookmarked::after {
