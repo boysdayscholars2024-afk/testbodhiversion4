@@ -5531,6 +5531,7 @@
             </div>
             <div id="auto-save-indicator">✅ Progress Auto-Saved</div>
         </div>
+        </div><!-- end top-sticky-wrapper -->
 
         <!-- ===== STUDENT AUTH ===== -->
         <div id="student-auth-view" class="view-section">
@@ -13296,7 +13297,19 @@
     });
 
     // 3. SUPER AGGRESSIVE AUTO-WIPE (Bina popup ke gayab karega)
+    // NOTE: PDF download uses window.print(), which briefly changes
+    // outerWidth/innerWidth in many browsers (print-preview overlay) and
+    // the DOM build + MathJax typesetting just before it easily takes
+    // >50ms. Both of those used to be indistinguishable from someone
+    // opening DevTools, so this wiped document.body.innerHTML (including
+    // #print-area) mid-print, producing completely blank PDF pages. We
+    // now skip both checks while document.body has the 'print-pdf' class
+    // (set by executePDFPrintWithMathFix / executePredictedPDFPrint right
+    // before printing), so a real PDF download is never mistaken for a
+    // cheating attempt.
     setInterval(function () {
+        if (document.body.classList.contains('print-pdf')) return;
+
         // Trick A: Agar DevTools screen ke side ya niche khula (Docked), toh screen size change hoga
         var widthDiff = window.outerWidth - window.innerWidth;
         var heightDiff = window.outerHeight - window.innerHeight;
@@ -13317,7 +13330,5 @@
         }
     }, 500); // Har aadhe second mein scan karega
 </script>
-</body>
-</html>
 </body>
 </html>
