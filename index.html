@@ -42,18 +42,18 @@
            CSS VARIABLES – LIGHT & DARK MODE AUTO ADAPTIVE
            ============================================================ */
         :root {
-            --primary: #4b5563;
-            --primary-dark: #374151;
-            --primary-light: #6b7280;
-            --accent: #6b7280;
-            --accent-light: #9ca3af;
-            --accent-gradient: linear-gradient(135deg, #6b7280, #9ca3af);
+            --primary: #2F4F4F;
+            --primary-dark: #203636;
+            --primary-light: #3f6666;
+            --accent: #2F4F4F;
+            --accent-light: #3f6666;
+            --accent-gradient: linear-gradient(135deg, #2F4F4F, #3f6666);
             --success: #0f9d58;
             --danger: #dc3545;
             --warning: #f59e0b;
             --bg-body: #eef0f2;
             --bg-container: #ffffff;
-            --bg-header: linear-gradient(135deg, #262a2f 0%, #3f444b 50%, #565c64 100%);
+            --bg-header: linear-gradient(135deg, #1c3030 0%, #2F4F4F 50%, #3f6666 100%);
             --bg-card: #ffffff;
             --bg-input: #f4f5f6;
             --bg-subtle: #eceeef;
@@ -76,24 +76,29 @@
             --card-bg: rgba(255, 255, 255, 0.85);
             --card-border: rgba(255, 255, 255, 0.3);
             --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            --card-glow: rgba(107, 114, 128, 0.15);
+            --card-glow: rgba(47, 79, 79, 0.15);
             --classic-maroon: #7a1f2b;
             --classic-maroon-light: #9c2e3c;
             --classic-ivory: #f7f0dc;
-            --badge-bg: rgba(60, 60, 64, 0.08);
+            --badge-bg: rgba(47, 79, 79, 0.10);
+            --on-gray-text: #FFFF00;
         }
 
         body.dark-mode {
-            /* Black/gray dark theme: everything that used to be navy+gold
-               is now shades of gray on a near-black background. */
-            --primary: #c7cad0;
-            --primary-light: #dfe1e5;
-            --primary-dark: #9a9ea6;
-            --accent: #9a9ea6;
-            --accent-light: #c7cad0;
-            --accent-gradient: linear-gradient(135deg, #9a9ea6, #c7cad0);
-            --bg-header: linear-gradient(135deg, #08090a 0%, #17181b 50%, #26282c 100%);
-            --badge-bg: rgba(255, 255, 255, 0.10);
+            /* Two-colour dark theme: #2F4F4F (dark slate gray) for every
+               coloured surface (header, buttons, highlighted chips). Plain
+               body text/backgrounds stay black/dark-gray as before;
+               #FFFF00 (yellow) is used as the text colour specifically on
+               top of #2F4F4F surfaces (buttons, active palette chips —
+               see their own rules below). */
+            --primary: #2F4F4F;
+            --primary-light: #3f6666;
+            --primary-dark: #203636;
+            --accent: #2F4F4F;
+            --accent-light: #3f6666;
+            --accent-gradient: linear-gradient(135deg, #2F4F4F, #3f6666);
+            --bg-header: linear-gradient(135deg, #1c3030 0%, #2F4F4F 50%, #3f6666 100%);
+            --badge-bg: rgba(47, 79, 79, 0.35);
             --bg-body: #0a0a0b;
             --bg-container: #121214;
             --bg-card: #1b1c1f;
@@ -110,10 +115,11 @@
             --card-bg: rgba(27, 28, 31, 0.85);
             --card-border: rgba(43, 44, 48, 0.5);
             --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --card-glow: rgba(180, 180, 185, 0.15);
+            --card-glow: rgba(47, 79, 79, 0.25);
             --classic-maroon: #b5495a;
             --classic-maroon-light: #d06a7b;
             --classic-ivory: #d9cfa8;
+            --on-gray-text: #FFFF00;
         }
 
         /* ============================================================
@@ -319,7 +325,7 @@
             line-height: 1;
         }
         .brand-wrapper .brand-name span {
-            color: var(--accent);
+            color: #FFFF00;
         }
 
         .logo-lightbox {
@@ -965,7 +971,7 @@
             background: var(--bg-card);
             color: var(--text-main);
             font-weight: 700;
-            font-size:9px;
+            font-size:8px;
             cursor: pointer;
             transition: var(--transition);
             display: flex;
@@ -973,16 +979,16 @@
             justify-content: center;
             font-family: var(--font-sans);
             position: relative;
-            min-height: 24px;
+            min-height: 19px;
         }
         .sb-palette-btn:hover {
             transform: scale(1.05);
             box-shadow: var(--shadow-sm);
         }
         .sb-palette-btn.status-answered {
-            background: #6b7280;
+            background: #4b5563;
             color: #fff;
-            border-color: #6b7280;
+            border-color: #4b5563;
         }
         .sb-palette-btn.status-not-answered {
             background: #d1d5db;
@@ -995,13 +1001,13 @@
             border-color: var(--border-color);
         }
         .sb-palette-btn.active-q {
-            border: 3px solid #374151;
+            border: 3px solid #2F4F4F;
             transform: scale(1.08);
-            box-shadow: 0 0 0 3px rgba(55, 65, 81, 0.20);
+            box-shadow: 0 0 0 3px rgba(47, 79, 79, 0.30);
             z-index: 2;
         }
         .sb-palette-btn.bookmarked {
-            border-color: #4b5563;
+            border-color: #2F4F4F;
         }
         .sb-palette-btn.bookmarked::after {
             content: '⭐';
@@ -1122,7 +1128,7 @@
             flex-wrap: nowrap;
         }
         .action-btn {
-            padding:6px 3px;
+            padding:12px 3px;
             border: none;
             border-radius:var(--radius);
             font-weight: 700;
@@ -1142,17 +1148,17 @@
             box-shadow: var(--shadow-md);
         }
         .action-btn.btn-prev {
-            background: #9ca3af;
+            background: #2F4F4F;
         }
         .action-btn.btn-clear {
-            background: #6b7280;
+            background: #2F4F4F;
             color: #fff;
         }
         .action-btn.btn-next {
-            background: #4b5563;
+            background: #2F4F4F;
         }
         .action-btn.btn-submit {
-            background: #374151;
+            background: #2F4F4F;
         }
 
         /* Guarantee a crisp pure-white question area in light mode
@@ -2565,8 +2571,8 @@
             padding:3px 0;
         }
         .palette-btn {
-            width: 30px;
-            height: 30px;
+            width: 24px;
+            height: 24px;
             border-radius:var(--radius-sm);
             font-weight: 700;
             font-size:10px;
@@ -2591,12 +2597,12 @@
             border-color: #d1d5db;
         }
         .palette-btn.status-answered {
-            background: #6b7280;
+            background: #4b5563;
             color: #fff;
-            border-color: #6b7280;
+            border-color: #4b5563;
         }
         .palette-btn.bookmarked {
-            border-color: #4b5563;
+            border-color: #2F4F4F;
             position: relative;
         }
         .palette-btn.bookmarked::after {
@@ -4572,7 +4578,7 @@
         .subject-filter-bar .filter-btn.active {
             border-color: var(--accent);
             background: var(--accent-gradient);
-            color: var(--primary-dark);
+            color: #FFFF00;
             box-shadow: var(--shadow-sm);
         }
         .subject-filter-bar .filter-btn.active > span:first-child::before {
@@ -5492,7 +5498,7 @@
                 <div class="brand-wrapper" onclick="window.goToHome()" title="Go to Home">
                     <img class="brand-logo" id="header-logo-img"
                     src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 70'><rect width='280' height='70' rx='10' fill='%230f2b5c'/><text x='20' y='44' font-family='Poppins, sans-serif' font-size='32' font-weight='900' fill='%23ffffff'>TEST</text><text x='150' y='44' font-family='Poppins, sans-serif' font-size='32' font-weight='900' fill='%23d4a843'>BODHI</text><text x='20' y='62' font-family='Inter, sans-serif' font-size='12' font-weight='600' fill='%2390a8c0' letter-spacing='2'>PRACTICE · PREPARE · SUCCEED</text></svg>"
-                    alt="TEST BODHI Logo" data-shape="round" />
+                    alt="TEST BODHI Logo" data-shape="round" style="visibility:hidden;" />
                     <span class="brand-name">TEST <span>BODHI</span></span>
                 </div>
           <div class="header-controls">
@@ -7741,7 +7747,13 @@
                         window.portalLogoURL = data.url || "";
                         window.portalLogoShape = data.shape || "round";
                         window.applyPortalLogo();
-                    } catch (e) {}
+                    } catch (e) {
+                        window.portalLogoURL = "";
+                        window.applyPortalLogo();
+                    }
+                } else {
+                    window.portalLogoURL = "";
+                    window.applyPortalLogo();
                 }
             });
         };
@@ -7758,6 +7770,7 @@
                 if (window.portalLogoURL && window.portalLogoURL.startsWith('http')) {
                     headerImg.src = window.portalLogoURL;
                     headerImg.style.display = 'block';
+                    headerImg.style.visibility = 'visible';
                     headerImg.setAttribute('data-shape', window.portalLogoShape);
                     if (window.portalLogoShape === 'round') {
                         headerImg.style.borderRadius = '50%';
@@ -7769,6 +7782,7 @@
                         "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 70'><rect width='280' height='70' rx='10' fill='%230f2b5c'/><text x='20' y='44' font-family='Poppins, sans-serif' font-size='32' font-weight='900' fill='%23ffffff'>TEST</text><text x='150' y='44' font-family='Poppins, sans-serif' font-size='32' font-weight='900' fill='%23d4a843'>BODHI</text><text x='20' y='62' font-family='Inter, sans-serif' font-size='12' font-weight='600' fill='%2390a8c0' letter-spacing='2'>PRACTICE · PREPARE · SUCCEED</text></svg>";
                     headerImg.style.borderRadius = '8px';
                     headerImg.setAttribute('data-shape', 'square');
+                    headerImg.style.visibility = 'visible';
                 }
             }
 
